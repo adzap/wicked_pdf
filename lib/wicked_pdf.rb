@@ -12,12 +12,6 @@ else
 end
 
 begin
-  require 'active_support/core_ext/module/attribute_accessors'
-rescue LoadError
-  require 'active_support/core_ext/class/attribute_accessors'
-end
-
-begin
   require 'active_support/core_ext/object/blank'
 rescue LoadError
   require 'active_support/core_ext/blank'
@@ -34,7 +28,11 @@ class WickedPdf
   BINARY_VERSION_WITHOUT_DASHES = Gem::Version.new('0.12.0')
   EXE_NAME = 'wkhtmltopdf'.freeze
   @@config = {}
-  cattr_accessor :config
+
+  class << self
+    attr_accessor :config
+  end
+
   attr_accessor :binary_version
 
   include Progress
