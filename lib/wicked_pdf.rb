@@ -24,7 +24,7 @@ rescue LoadError
 end
 
 require 'wicked_pdf/version'
-require 'wicked_pdf/railtie'
+require 'wicked_pdf/railtie' if defined?(Rails.env)
 require 'wicked_pdf/tempfile'
 require 'wicked_pdf/middleware'
 require 'wicked_pdf/progress'
