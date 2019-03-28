@@ -4,7 +4,8 @@ git:
   quiet: true
 sudo: required
 before_install:
-  - gem install bundler
+  - gem uninstall bundler --all
+  - gem install bundler -v '~> 1.17'
   - sudo apt-get update -qq
 bundler_args: --verbose
 before_script:
