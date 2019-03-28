@@ -16,21 +16,5 @@ class WickedPdf
       end.join("\n")
       css_text.respond_to?(:html_safe) ? css_text.html_safe : css_text
     end
-
-    def wicked_pdf_image_tag(img, options = {})
-      image_tag "file:///#{WickedPdfHelper.root_path.join('public', 'images', img)}", options
-    end
-
-    def wicked_pdf_javascript_src_tag(jsfile, options = {})
-      jsfile = WickedPdfHelper.add_extension(jsfile, 'js')
-      type = ::Mime.respond_to?(:[]) ? ::Mime[:js] : ::Mime::JS # ::Mime[:js] cannot be used in Rails 2.3.
-      src = "file:///#{WickedPdfHelper.root_path.join('public', 'javascripts', jsfile)}"
-      content_tag('script', '', { 'type' => type, 'src' => path_to_javascript(src) }.merge(options))
-    end
-
-    def wicked_pdf_javascript_include_tag(*sources)
-      js_text = sources.collect { |source| wicked_pdf_javascript_src_tag(source, {}) }.join("\n")
-      js_text.respond_to?(:html_safe) ? js_text.html_safe : js_text
-    end
   end
 end
