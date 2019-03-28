@@ -1,4 +1,4 @@
-class WickedPdf
+module WickedPdf
   module Progress
     require 'pty' # no support for windows
     require 'English'

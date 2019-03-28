@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class WickedPdf
+module WickedPdf
   attr_accessor :binary
 end
 

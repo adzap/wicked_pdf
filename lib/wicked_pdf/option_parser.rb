@@ -1,4 +1,4 @@
-class WickedPdf
+module WickedPdf
   class OptionParser
     BINARY_VERSION_WITHOUT_DASHES = Gem::Version.new('0.12.0')
 

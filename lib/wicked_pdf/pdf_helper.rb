@@ -1,4 +1,4 @@
-class WickedPdf
+module WickedPdf
   module PdfHelper
     def self.prepended(base)
       # Protect from trying to augment modules that appear

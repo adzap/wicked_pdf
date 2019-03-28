@@ -1,4 +1,4 @@
-class WickedPdf
+module WickedPdf
   class Binary
     EXE_NAME = 'wkhtmltopdf'.freeze
 

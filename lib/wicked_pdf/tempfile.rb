@@ -1,6 +1,6 @@
 require 'tempfile'
 
-class WickedPdf
+module WickedPdf
   class WickedPdfTempfile < Tempfile
     # ensures the Tempfile's filename always keeps its extension
     def initialize(filename, temp_dir = nil)

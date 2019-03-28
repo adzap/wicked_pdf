@@ -17,7 +17,7 @@ require 'wicked_pdf/document'
 require 'wicked_pdf/railtie' if defined?(Rails.env)
 require 'wicked_pdf/middleware'
 
-class WickedPdf
+module WickedPdf
   DEFAULT_BINARY_VERSION = Gem::Version.new('0.9.9')
   BINARY_VERSION_WITHOUT_DASHES = Gem::Version.new('0.12.0')
 

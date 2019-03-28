@@ -2,7 +2,7 @@ require 'wicked_pdf/pdf_helper'
 require 'wicked_pdf/renderer'
 require 'wicked_pdf/asset_helper'
 
-class WickedPdf
+module WickedPdf
   class Railtie < Rails::Railtie
     initializer 'wicked_pdf.register' do |_app|
       ActionController::Base.send :prepend, PdfHelper

@@ -1,4 +1,4 @@
-class WickedPdf
+module WickedPdf
   class Middleware
     def initialize(app, options = {}, conditions = {})
       @app = app

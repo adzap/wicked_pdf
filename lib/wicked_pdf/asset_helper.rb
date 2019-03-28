@@ -1,6 +1,6 @@
 require 'open-uri'
 
-class WickedPdf
+module WickedPdf
   module AssetHelper
     ASSET_URL_REGEX = /url\(['"]?([^'"]+?)['"]?\)/
 

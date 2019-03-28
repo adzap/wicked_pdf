@@ -1,4 +1,4 @@
-class WickedPdf
+module WickedPdf
   class Renderer
     attr_reader :controller
 
