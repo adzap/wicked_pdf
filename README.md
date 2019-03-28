@@ -1,28 +1,29 @@
 # Wicked PDF [![Gem Version](https://badge.fury.io/rb/adzap-wicked_pdf.svg)](http://badge.fury.io/rb/adzap-wicked_pdf) [![Build Status](https://secure.travis-ci.org/adzap/wicked_pdf.svg)](http://travis-ci.org/adzap/wicked_pdf) 
 
+_This is a fork of the [original](https://github.com/milesz/wicked_pdf) to redesign the internals for a much lighter footprint on your app and offer greater extensibility_
+
 ## A PDF generation plugin for Ruby on Rails
 
 Wicked PDF uses the shell utility [wkhtmltopdf](http://wkhtmltopdf.org) to serve a PDF file to a user from HTML.  In other words, rather than dealing with a PDF generation DSL of some sort, you simply write an HTML view as you would normally, then let Wicked PDF take care of the hard stuff.
 
-_Wicked PDF has been verified to work on Ruby versions 1.8.7 through 2.6; Rails 2 through 5.2_
+_Wicked PDF has been verified to work on Ruby versions 2.3 through 2.6; Rails 4.2 through 5.2_
 
 ### Installation
 
 Add this to your Gemfile and run `bundle install`:
 
 ```ruby
-gem 'wicked_pdf'
+gem 'adzap-wicked_pdf'
 ```
 
 Then create the initializer with
 
     rails generate wicked_pdf
 
-You may also need to add
+You may also need to add if you're not using Rails
 ```ruby
 Mime::Type.register "application/pdf", :pdf
 ```
-to `config/initializers/mime_types.rb` in older versions of Rails.
 
 Because `wicked_pdf` is a wrapper for  [wkhtmltopdf](http://wkhtmltopdf.org/), you'll need to install that, too.
 
@@ -270,7 +271,7 @@ pdf = WickedPdf.new.pdf_from_string('<h1>Hello There!</h1>')
 pdf = WickedPdf.new.pdf_from_html_file('/your/absolute/path/here')
 
 # create a pdf from a URL
-pdf = WickedPdf.new.pdf_from_url('https://github.com/mileszs/wicked_pdf')
+pdf = WickedPdf.new.pdf_from_url('https://github.com/adzap/wicked_pdf')
 
 # create a pdf from string using templates, layouts and content option for header or footer
 pdf = WickedPdf.new.pdf_from_string(
