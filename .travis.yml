@@ -4,7 +4,7 @@ git:
   quiet: true
 sudo: required
 before_install:
-  - gem uninstall bundler --all
+  - "find /home/travis/.rvm/rubies -wholename '*default/bundler-*.gemspec' -delete"
   - gem install bundler -v '~> 1.17'
   - sudo apt-get update -qq
 bundler_args: --verbose
