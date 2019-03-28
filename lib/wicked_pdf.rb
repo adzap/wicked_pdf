@@ -10,7 +10,7 @@ require 'active_support/core_ext/module/attribute_accessors'
 require 'active_support/core_ext/object/blank'
 
 require 'wicked_pdf/version'
-require 'wicked_pdf/railtie'
+require 'wicked_pdf/railtie' if defined?(Rails.env)
 require 'wicked_pdf/tempfile'
 require 'wicked_pdf/middleware'
 require 'wicked_pdf/progress'

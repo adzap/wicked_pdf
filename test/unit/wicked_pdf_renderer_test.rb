@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'wicked_pdf/renderer'
 
 class WickedPdfRendererTest < ActiveSupport::TestCase
   def setup

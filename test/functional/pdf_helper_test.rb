@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'wicked_pdf/pdf_helper'
 
 module ActionControllerMock
   class Base
