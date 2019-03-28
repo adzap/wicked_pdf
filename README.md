@@ -20,11 +20,6 @@ Then create the initializer with
 
     rails generate wicked_pdf
 
-You may also need to add if you're not using Rails
-```ruby
-Mime::Type.register "application/pdf", :pdf
-```
-
 Because `wicked_pdf` is a wrapper for  [wkhtmltopdf](http://wkhtmltopdf.org/), you'll need to install that, too.
 
 The simplest way to install all of the binaries on most Linux or OSX systems is through the gem [wkhtmltopdf-binary](https://github.com/zakird/wkhtmltopdf_binary_gem). Builds for other systems are available [here](https://wkhtmltopdf.org/downloads.html)
