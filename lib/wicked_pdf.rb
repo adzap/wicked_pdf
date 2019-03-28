@@ -6,7 +6,6 @@ require 'digest/md5'
 require 'rbconfig'
 require 'open3'
 
-require 'active_support/core_ext/module/attribute_accessors'
 require 'active_support/core_ext/object/blank'
 
 require 'wicked_pdf/version'
@@ -22,8 +21,9 @@ class WickedPdf
   DEFAULT_BINARY_VERSION = Gem::Version.new('0.9.9')
   BINARY_VERSION_WITHOUT_DASHES = Gem::Version.new('0.12.0')
 
-  @@config = {}
-  cattr_accessor :config
+  class << self
+    attr_accessor :config
+  end
 
   def self.new(wkhtmltopdf_binary_path = nil)
     WickedPdf::Document.new(wkhtmltopdf_binary_path)
