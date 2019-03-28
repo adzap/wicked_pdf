@@ -1,7 +1,6 @@
 require 'wicked_pdf/pdf_helper'
 require 'wicked_pdf/renderer'
-require 'wicked_pdf/wicked_pdf_helper'
-require 'wicked_pdf/wicked_pdf_helper/assets'
+require 'wicked_pdf/asset_helper'
 
 class WickedPdf
   class Railtie < Rails::Railtie
@@ -10,7 +9,7 @@ class WickedPdf
       ActionController::Renderers.add :pdf do |template, options|
         WickedPdf::Renderer.new(self).render(options.merge(:pdf => template))
       end
-      ActionView::Base.send :include, WickedPdfHelper::Assets
+      ActionView::Base.send :include, WickedPdf::AssetHelper
     end
   end
 end

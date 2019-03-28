@@ -1,8 +1,8 @@
 require 'test_helper'
 require 'action_view/test_case'
 
-class WickedPdfHelperAssetsTest < ActionView::TestCase
-  include WickedPdf::WickedPdfHelper::Assets
+class WickedPdfAssetHelperTest < ActionView::TestCase
+  include WickedPdf::AssetHelper
 
   if Rails::VERSION::MAJOR > 3 || (Rails::VERSION::MAJOR == 3 && Rails::VERSION::MINOR > 0)
     test 'wicked_pdf_asset_base64 returns a base64 encoded asset' do
@@ -103,14 +103,14 @@ class WickedPdfHelperAssetsTest < ActionView::TestCase
       assert_equal 'http://example.com/rails.png', wicked_pdf_asset_path('//example.com/rails.png')
     end
 
-    test 'WickedPdfHelper::Assets::ASSET_URL_REGEX should match various URL data type formats' do
-      assert_match WickedPdf::WickedPdfHelper::Assets::ASSET_URL_REGEX, 'url(\'/asset/stylesheets/application.css\');'
-      assert_match WickedPdf::WickedPdfHelper::Assets::ASSET_URL_REGEX, 'url("/asset/stylesheets/application.css");'
-      assert_match WickedPdf::WickedPdfHelper::Assets::ASSET_URL_REGEX, 'url(/asset/stylesheets/application.css);'
-      assert_match WickedPdf::WickedPdfHelper::Assets::ASSET_URL_REGEX, 'url(\'http://assets.domain.com/dummy.png\');'
-      assert_match WickedPdf::WickedPdfHelper::Assets::ASSET_URL_REGEX, 'url("http://assets.domain.com/dummy.png");'
-      assert_match WickedPdf::WickedPdfHelper::Assets::ASSET_URL_REGEX, 'url(http://assets.domain.com/dummy.png);'
-      assert_no_match WickedPdf::WickedPdfHelper::Assets::ASSET_URL_REGEX, '.url { \'http://assets.domain.com/dummy.png\' }'
+    test 'AssetHelper::ASSET_URL_REGEX should match various URL data type formats' do
+      assert_match WickedPdf::AssetHelper::ASSET_URL_REGEX, 'url(\'/asset/stylesheets/application.css\');'
+      assert_match WickedPdf::AssetHelper::ASSET_URL_REGEX, 'url("/asset/stylesheets/application.css");'
+      assert_match WickedPdf::AssetHelper::ASSET_URL_REGEX, 'url(/asset/stylesheets/application.css);'
+      assert_match WickedPdf::AssetHelper::ASSET_URL_REGEX, 'url(\'http://assets.domain.com/dummy.png\');'
+      assert_match WickedPdf::AssetHelper::ASSET_URL_REGEX, 'url("http://assets.domain.com/dummy.png");'
+      assert_match WickedPdf::AssetHelper::ASSET_URL_REGEX, 'url(http://assets.domain.com/dummy.png);'
+      assert_no_match WickedPdf::AssetHelper::ASSET_URL_REGEX, '.url { \'http://assets.domain.com/dummy.png\' }'
     end
 
     test 'prepend_protocol should properly set the protocol when the asset is precompiled' do
