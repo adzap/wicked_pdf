@@ -29,7 +29,7 @@ DESC
   spec.add_dependency 'activesupport'
 
   spec.add_development_dependency 'rails'
-  spec.add_development_dependency 'bundler', '>= 1.3', '< 3'
+  spec.add_development_dependency 'bundler', '>= 1.3.0', '< 3'
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rubocop', '~> 0.50.0'
   spec.add_development_dependency 'sqlite3', '~> 1.3.6'
