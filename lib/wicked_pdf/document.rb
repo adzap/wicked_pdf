@@ -13,7 +13,7 @@ module WickedPdf
     def pdf_from_string(string, options = {})
       options = options.dup
       options.merge!(WickedPdf.config) { |_key, option, _config| option }
-      string_file = WickedPdfTempfile.new('wicked_pdf.html', options[:temp_path])
+      string_file = WickedPdf::Tempfile.new('wicked_pdf.html', options[:temp_path])
       string_file.binmode
       string_file.write(string)
       string_file.close
@@ -27,7 +27,7 @@ module WickedPdf
     def pdf_from_url(url, options = {})
       # merge in global config options
       options.merge!(WickedPdf.config) { |_key, option, _config| option }
-      generated_pdf_file = WickedPdfTempfile.new('wicked_pdf_generated_file.pdf', options[:temp_path])
+      generated_pdf_file = WickedPdf::Tempfile.new('wicked_pdf_generated_file.pdf', options[:temp_path])
       command = [@binary.path]
       command += parse_options(options)
       command << url

@@ -96,7 +96,7 @@ module WickedPdf
     end
 
     def render_to_tempfile(filename, options)
-      tf = WickedPdfTempfile.new(filename)
+      tf = WickedPdf::Tempfile.new(filename)
       @hf_tempfiles.push(tf)
       tf.write controller.render_to_string(options)
       tf.flush

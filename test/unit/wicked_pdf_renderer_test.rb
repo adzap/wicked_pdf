@@ -31,8 +31,8 @@ class WickedPdfRendererTest < ActiveSupport::TestCase
     header_temp = mock('Header tempfile', :path => 'header', :close! => nil, :write => nil, :flush => nil)
     footer_temp = mock('Footer tempfile', :path => 'footer', :close! => nil, :write => nil, :flush => nil)
 
-    WickedPdf::WickedPdfTempfile.expects(:new).with('wicked_header_pdf.html').returns(header_temp)
-    WickedPdf::WickedPdfTempfile.expects(:new).with('wicked_footer_pdf.html').returns(footer_temp)
+    WickedPdf::Tempfile.expects(:new).with('wicked_header_pdf.html').returns(header_temp)
+    WickedPdf::Tempfile.expects(:new).with('wicked_footer_pdf.html').returns(footer_temp)
 
     @renderer.render(
       :pdf => 'template',
