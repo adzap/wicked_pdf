@@ -30,31 +30,6 @@ class WickedPdfDocumentTest < ActiveSupport::TestCase
     assert pdf.length > 100
   end
 
-  test 'should raise exception when no path to wkhtmltopdf' do
-    assert_raise RuntimeError do
-      WickedPdf::Document.new ' '
-    end
-  end
-
-  test 'should raise exception when wkhtmltopdf path is wrong' do
-    assert_raise RuntimeError do
-      WickedPdf::Document.new '/i/do/not/exist/notwkhtmltopdf'
-    end
-  end
-
-  test 'should raise exception when wkhtmltopdf is not executable' do
-    begin
-      tmp = Tempfile.new('wkhtmltopdf')
-      fp = tmp.path
-      File.chmod 0o000, fp
-      assert_raise RuntimeError do
-        WickedPdf::Document.new fp
-      end
-    ensure
-      tmp.delete
-    end
-  end
-
   test 'should raise exception when pdf generation fails' do
     begin
       tmp = Tempfile.new('wkhtmltopdf')

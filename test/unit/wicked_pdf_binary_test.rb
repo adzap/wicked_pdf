@@ -20,6 +20,32 @@ class WickedPdfBinaryTest < ActiveSupport::TestCase
     assert_equal WickedPdf::Binary::DEFAULT_BINARY_VERSION, binary.parse_version_string('')
   end
 
+  test 'should raise exception when no path to wkhtmltopdf' do
+    assert_raise RuntimeError do
+      WickedPdf::Binary.new(' ')
+    end
+  end
+
+  test 'should raise exception when wkhtmltopdf path is wrong' do
+    assert_raise RuntimeError do
+      WickedPdf::Binary.new('/i/do/not/exist/notwkhtmltopdf')
+    end
+  end
+
+  test 'should raise exception when wkhtmltopdf is not executable' do
+    begin
+      tmp = Tempfile.new('wkhtmltopdf')
+      fp = tmp.path
+      File.chmod 0o000, fp
+
+      assert_raise RuntimeError do
+        WickedPdf::Binary.new(fp)
+      end
+    ensure
+      tmp.delete
+    end
+  end
+
   def binary(path = nil)
     WickedPdf::Binary.new(path)
   end
