@@ -1,7 +1,12 @@
 # Configure Rails Environment
 ENV['RAILS_ENV'] = 'test'
 
-require File.expand_path('../dummy/config/environment.rb', __FILE__)
+require 'combustion'
+
+Combustion.path = 'test/dummy'
+Combustion.initialize! :all do
+  config.active_record.sqlite3.represent_boolean_as_integer = true
+end
 
 require 'rails/test_help'
 require 'mocha'

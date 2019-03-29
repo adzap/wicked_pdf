@@ -5,7 +5,7 @@ require 'rails/version'
 require 'bundler/gem_tasks'
 
 desc 'Default: run unit tests.'
-task :default => [:setup_and_run_tests, :rubocop]
+task :default => [:test, :rubocop]
 
 desc 'Test the wicked_pdf plugin.'
 Rake::TestTask.new(:test) do |t|
@@ -19,29 +19,6 @@ desc 'Run RuboCop'
 task :rubocop do
   require 'rubocop/rake_task'
   RuboCop::RakeTask.new
-end
-
-desc 'Setup and run all tests'
-task :setup_and_run_tests do
-  unless File.exist?('test/dummy/config/environment.rb')
-    Rake::Task[:dummy_generate].invoke
-  end
-  Rake::Task[:test].invoke
-end
-
-desc 'Generate dummy application for test cases'
-task :dummy_generate do
-  Rake::Task[:dummy_remove].invoke
-  puts 'Creating dummy application to run tests'
-  system('rails new test/dummy --database=sqlite3')
-  system('touch test/dummy/db/schema.rb')
-  FileUtils.cp 'test/fixtures/database.yml', 'test/dummy/config/'
-  FileUtils.rm_r Dir.glob('test/dummy/test/*')
-end
-
-desc 'Remove dummy application'
-task :dummy_remove do
-  FileUtils.rm_r Dir.glob('test/dummy/*')
 end
 
 desc 'Generate documentation for the wicked_pdf gem.'
