@@ -1,10 +1,11 @@
 module WickedPdf
   class Binary
     EXE_NAME = 'wkhtmltopdf'.freeze
+    DEFAULT_BINARY_VERSION = Gem::Version.new('0.9.9')
 
     attr_reader :path, :default_version
 
-    def initialize(binary_path, default_version = WickedPdf::DEFAULT_BINARY_VERSION)
+    def initialize(binary_path = nil, default_version = DEFAULT_BINARY_VERSION)
       @path = binary_path || find_binary_path
       @default_version = default_version
 

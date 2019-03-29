@@ -4,7 +4,7 @@ module WickedPdf
 
     attr_reader :binary_version
 
-    def initialize(binary_version = WickedPdf::DEFAULT_BINARY_VERSION)
+    def initialize(binary_version = WickedPdf::Binary::DEFAULT_BINARY_VERSION)
       @binary_version = binary_version
     end
 

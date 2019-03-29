@@ -118,11 +118,11 @@ class WickedPdfOptionParserTest < ActiveSupport::TestCase
     assert_equal parse_options(options), "--disable-javascript --header-center 3 #{cover_option} http://example.org"
   end
 
-  def parse_options(options, version = WickedPdf::DEFAULT_BINARY_VERSION)
+  def parse_options(options, version = WickedPdf::Binary::DEFAULT_BINARY_VERSION)
     option_parser(version).parse(options).join(' ')
   end
 
-  def option_parser(version = WickedPdf::DEFAULT_BINARY_VERSION)
+  def option_parser(version = WickedPdf::Binary::DEFAULT_BINARY_VERSION)
     WickedPdf::OptionParser.new(version)
   end
 end
