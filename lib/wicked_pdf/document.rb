@@ -64,8 +64,7 @@ module WickedPdf
     end
 
     def in_development_mode?
-      return Rails.env == 'development' if defined?(Rails.env)
-      RAILS_ENV == 'development' if defined?(RAILS_ENV)
+      defined?(Rails.env) && Rails.env.development?
     end
 
     def on_windows?
