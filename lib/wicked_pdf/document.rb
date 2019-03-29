@@ -18,8 +18,7 @@ module WickedPdf
       string_file.write(string)
       string_file.close
 
-      pdf = pdf_from_html_file(string_file.path, options)
-      pdf
+      pdf_from_html_file(string_file.path, options)
     ensure
       string_file.close! if string_file
     end
