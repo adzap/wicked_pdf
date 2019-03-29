@@ -4,8 +4,10 @@ ENV['RAILS_ENV'] = 'test'
 require 'combustion'
 
 Combustion.path = 'test/dummy'
-Combustion.initialize!(:all) do |config|
-  config.active_record.sqlite3.represent_boolean_as_integer = true if config.active_record.sqlite3.respond_to?(:represent_boolean_as_integer) # Rails 5.2
+Combustion.initialize!(:all) do
+  if config.active_record.sqlite3.respond_to?(:represent_boolean_as_integer) # Rails 5.2
+    config.active_record.sqlite3.represent_boolean_as_integer = true
+  end
 end
 
 require 'rails/test_help'
