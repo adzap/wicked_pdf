@@ -5,7 +5,7 @@ require 'combustion'
 
 Combustion.path = 'test/dummy'
 Combustion.initialize! :all do
-  config.active_record.sqlite3.represent_boolean_as_integer = true
+  config.active_record.sqlite3.represent_boolean_as_integer = true rescue nil # Rails 5.2
 end
 
 require 'rails/test_help'
