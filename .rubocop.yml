@@ -1,7 +1,7 @@
 inherit_from: .rubocop_todo.yml
 
 AllCops:
-  TargetRubyVersion: 1.9
+  TargetRubyVersion: 2.3
   Exclude:
     - 'test/dummy/**/*'
 
@@ -9,6 +9,14 @@ Metrics/BlockLength:
   Exclude:
     - 'wicked_pdf.gemspec'
 
-# I'd like wicked_pdf to keep Ruby 1.8 compatibility for now
 Style/HashSyntax:
-  EnforcedStyle: hash_rockets
+  EnforcedStyle: no_mixed_keys
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/SafeNavigation:
+  Enabled: false
