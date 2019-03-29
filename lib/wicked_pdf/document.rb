@@ -1,9 +1,7 @@
 module WickedPdf
   class Document
-    include Progress
-
-    def initialize(wkhtmltopdf_binary_path = nil)
-      @binary = Binary.new(wkhtmltopdf_binary_path, WickedPdf::DEFAULT_BINARY_VERSION)
+    def initialize(command = Command.new)
+      @command = command
     end
 
     def pdf_from_html_file(filepath, options = {})
@@ -27,56 +25,23 @@ module WickedPdf
       # merge in global config options
       options.merge!(WickedPdf.config) { |_key, option, _config| option }
       generated_pdf_file = WickedPdf::Tempfile.new('wicked_pdf_generated_file.pdf', options[:temp_path])
-      command = [@binary.path]
-      command += parse_options(options)
-      command << url
-      command << generated_pdf_file.path.to_s
 
-      print_command(command.inspect) if in_development_mode?
+      result = @command.execute(options, url, generated_pdf_file.path.to_s)
 
-      if track_progress?(options)
-        invoke_with_progress(command, options)
-      else
-        err = Open3.popen3(*command) do |_stdin, _stdout, stderr|
-          stderr.read
-        end
-      end
       if options[:return_file]
         return_file = options.delete(:return_file)
         return generated_pdf_file
       end
+
       generated_pdf_file.rewind
       generated_pdf_file.binmode
       pdf = generated_pdf_file.read
-      raise "Error generating PDF\n Command Error: #{err}" if options[:raise_on_all_errors] && !err.empty?
-      raise "PDF could not be generated!\n Command Error: #{err}" if pdf && pdf.rstrip.empty?
+
+      raise "PDF could not be generated!\n Command Error: #{result}" if pdf && pdf.rstrip.empty?
+
       pdf
-    rescue StandardError => e
-      raise "Failed to execute:\n#{command}\nError: #{e}"
     ensure
       generated_pdf_file.close! if generated_pdf_file && !return_file
-    end
-
-    private
-
-    def binary_version
-      @binary.version
-    end
-
-    def in_development_mode?
-      defined?(Rails.env) && Rails.env.development?
-    end
-
-    def on_windows?
-      RbConfig::CONFIG['target_os'] =~ /mswin|mingw/
-    end
-
-    def print_command(cmd)
-      Rails.logger.debug '[wicked_pdf]: ' + cmd
-    end
-
-    def parse_options(options)
-      OptionParser.new(@binary.version).parse(options)
     end
   end
 end

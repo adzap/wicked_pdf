@@ -1,13 +1,13 @@
 module WickedPdf
-  module Progress
+  class Progress
     require 'pty' # no support for windows
     require 'English'
 
-    def track_progress?(options)
-      options[:progress] && !on_windows?
+    def initialize(callback = nil)
+      @callback = callback
     end
 
-    def invoke_with_progress(command, options)
+    def execute(command)
       output = []
       begin
         PTY.spawn(command.join(' ')) do |stdout, _stdin, pid|
@@ -15,7 +15,7 @@ module WickedPdf
             stdout.sync
             stdout.each_line("\r") do |line|
               output << line.chomp
-              options[:progress].call(line) if options[:progress]
+              @callback.call(line) if @callback
             end
           rescue Errno::EIO # rubocop:disable Lint/HandleExceptions
             # child process is terminated, this is expected behaviour

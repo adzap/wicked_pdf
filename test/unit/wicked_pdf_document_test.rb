@@ -30,20 +30,6 @@ class WickedPdfDocumentTest < ActiveSupport::TestCase
     assert pdf.length > 100
   end
 
-  test 'should raise exception when pdf generation fails' do
-    begin
-      tmp = Tempfile.new('wkhtmltopdf')
-      fp = tmp.path
-      File.chmod 0o777, fp
-      document = WickedPdf::Document.new fp
-      assert_raise RuntimeError do
-        document.pdf_from_string HTML_DOCUMENT
-      end
-    ensure
-      tmp.delete
-    end
-  end
-
   test 'should output progress when creating pdfs on compatible hosts' do
     document = WickedPdf::Document.new
     output = []
@@ -53,6 +39,22 @@ class WickedPdfDocumentTest < ActiveSupport::TestCase
       assert_empty output
     else
       assert(output.collect { |l| !l.match(/Loading/).nil? }.include?(true)) # should output something like "Loading pages (1/5)"
+    end
+  end
+
+  test 'should raise exception when pdf is empty' do
+    begin
+      tmp = Tempfile.new('wkhtmltopdf')
+      fp = tmp.path
+      File.chmod 0o777, fp
+      command = WickedPdf::Command.new(binary: WickedPdf::Binary.new(fp))
+      document = WickedPdf::Document.new command
+
+      assert_raise RuntimeError do
+        document.pdf_from_string HTML_DOCUMENT
+      end
+    ensure
+      tmp.delete
     end
   end
 end
