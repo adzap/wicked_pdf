@@ -371,7 +371,7 @@ You can put your default configuration, applied to all pdf's at "wicked_pdf.rb" 
 
 If you would like to have WickedPdf automatically generate PDF views for all (or nearly all) pages by appending .pdf to the URL, add the following to your Rails app:
 ```ruby
-# in application.rb (Rails3) or environment.rb (Rails2)
+# in application.rb (Rails 4+)
 require 'wicked_pdf'
 config.middleware.use WickedPdf::Middleware
 ```
