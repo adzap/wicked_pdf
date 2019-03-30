@@ -11,7 +11,7 @@ class WickedPdfRendererTest < ActiveSupport::TestCase
       :action_name => 'create'
     )
 
-    WickedPdf.expects(:new).returns(mock(:pdf_from_string => ''))
+    WickedPdf::Document.expects(:new).returns(mock(:pdf_from_string => ''))
 
     @renderer = WickedPdf::Renderer.new(@controller)
   end
