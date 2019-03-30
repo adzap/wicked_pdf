@@ -51,7 +51,6 @@ module WickedPdf
     end
 
     def make_and_send_pdf(pdf_name, options = {})
-      options[:wkhtmltopdf] ||= nil
       options[:layout] ||= false
       options[:template] ||= File.join(controller_path, action_name)
       options[:disposition] ||= 'inline'
@@ -109,7 +108,7 @@ module WickedPdf
 
     def command(binary_path)
       if binary_path
-        WickedPdf::Command.new binary: WickedPdf::Binary.new(binary_path) 
+        WickedPdf::Command.new binary: WickedPdf::Binary.new(binary_path)
       else
         WickedPdf::Command.new
       end
