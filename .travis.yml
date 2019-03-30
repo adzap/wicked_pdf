@@ -13,7 +13,7 @@ before_script:
   - bundle list
   - sudo apt-get install -y xvfb wkhtmltopdf
   - "export DISPLAY=:99.0"
-  - "systemctl start xvfb"
+  - "sudo systemctl start xvfb"
 env: WKHTMLTOPDF_BIN=/usr/bin/wkhtmltopdf
 script:
   - bundle exec rake
