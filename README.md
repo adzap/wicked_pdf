@@ -1,6 +1,6 @@
 # Wicked PDF [![Gem Version](https://badge.fury.io/rb/adzap-wicked_pdf.svg)](http://badge.fury.io/rb/adzap-wicked_pdf) [![Build Status](https://secure.travis-ci.org/adzap/wicked_pdf.svg)](http://travis-ci.org/adzap/wicked_pdf) 
 
-_This is a fork of the [original](https://github.com/milesz/wicked_pdf) to redesign the internals for a much lighter footprint on your app and offer greater extensibility._
+_This is a fork of the [original](https://github.com/milesz/wicked_pdf) that modernises all dependencies and redesign the internals for a much lighter footprint on your app and offer greater extensibility._
 
 ## A PDF generation plugin for Ruby on Rails
 
