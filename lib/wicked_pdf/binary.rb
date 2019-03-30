@@ -1,21 +1,18 @@
 module WickedPdf
   class Binary
     EXE_NAME = 'wkhtmltopdf'.freeze
-    DEFAULT_BINARY_VERSION = Gem::Version.new('0.9.9')
+    MINIMUM_BINARY_VERSION = Gem::Version.new('0.12.0')
 
-    attr_reader :path, :default_version
+    attr_reader :path, :version
 
-    def initialize(binary_path = nil, default_version = DEFAULT_BINARY_VERSION)
+    def initialize(binary_path = nil)
       @path = binary_path || find_binary_path
-      @default_version = default_version
+      @version = retrieve_binary_version
 
+      raise "Minimum version of wkhtmltopdf is #{MINIMUM_BINARY_VERSION}. Version found was #{@version}." if @version < MINIMUM_BINARY_VERSION
       raise "Location of #{EXE_NAME} unknown" if @path.empty?
       raise "Bad #{EXE_NAME}'s path: #{@path}" unless File.exist?(@path)
       raise "#{EXE_NAME} is not executable" unless File.executable?(@path)
-    end
-
-    def version
-      @version ||= retrieve_binary_version
     end
 
     def parse_version_string(version_info)
@@ -23,7 +20,7 @@ module WickedPdf
       if match_data && (match_data.length == 2)
         Gem::Version.new(match_data[1])
       else
-        default_version
+        MINIMUM_BINARY_VERSION
       end
     end
 
@@ -33,7 +30,7 @@ module WickedPdf
       _stdin, stdout, _stderr = Open3.popen3(@path + ' -V')
       parse_version_string(stdout.gets(nil))
     rescue StandardError
-      default_version
+      MINIMUM_BINARY_VERSION
     end
 
     def find_binary_path

@@ -1,12 +1,12 @@
 # Wicked PDF [![Gem Version](https://badge.fury.io/rb/adzap-wicked_pdf.svg)](http://badge.fury.io/rb/adzap-wicked_pdf) [![Build Status](https://secure.travis-ci.org/adzap/wicked_pdf.svg)](http://travis-ci.org/adzap/wicked_pdf) 
 
-_This is a fork of the [original](https://github.com/milesz/wicked_pdf) to redesign the internals for a much lighter footprint on your app and offer greater extensibility_
+_This is a fork of the [original](https://github.com/milesz/wicked_pdf) to redesign the internals for a much lighter footprint on your app and offer greater extensibility._
 
 ## A PDF generation plugin for Ruby on Rails
 
-Wicked PDF uses the shell utility [wkhtmltopdf](http://wkhtmltopdf.org) to serve a PDF file to a user from HTML.  In other words, rather than dealing with a PDF generation DSL of some sort, you simply write an HTML view as you would normally, then let Wicked PDF take care of the hard stuff.
+Wicked PDF uses the shell utility [wkhtmltopdf](http://wkhtmltopdf.org) v0.12.x to serve a PDF file to a user from HTML. In other words, rather than dealing with a PDF generation DSL of some sort, you simply write an HTML view as you would normally, then let Wicked PDF take care of the hard stuff.
 
-_Wicked PDF has been verified to work on Ruby versions 2.3 through 2.6; Rails 4.2 through 5.2_
+_Wicked PDF has been verified to work on Ruby versions 2.3 through 2.6; Rails 4.2 through 5.2; Minimum supported version of wkhtmltopdf is 0.12.0._
 
 ### Installation
 
@@ -20,7 +20,7 @@ Then create the initializer with
 
     rails generate wicked_pdf
 
-Because `wicked_pdf` is a wrapper for  [wkhtmltopdf](http://wkhtmltopdf.org/), you'll need to install that, too.
+Because `wicked_pdf` is a wrapper for [wkhtmltopdf](http://wkhtmltopdf.org/), you'll need to install that, too.
 
 The simplest way to install all of the binaries on most Linux or OSX systems is through the gem [wkhtmltopdf-binary](https://github.com/zakird/wkhtmltopdf_binary_gem). Builds for other systems are available [here](https://wkhtmltopdf.org/downloads.html)
 To install that gem, add this:
@@ -31,7 +31,7 @@ gem 'wkhtmltopdf-binary'
 
 To your Gemfile and run `bundle install`.
 
-This gem currently installs version 0.12.x of `wkhtmltopdf`. Some of the options listed below are specific 0.9 or below, and others are for 0.12 and up.
+This gem currently installs version 0.12.x of `wkhtmltopdf`. Support for some of the options listed below may vary with release.
 
 You can see what flags are supported for the current version in [wkhtmltopdf's auto-generated manual](https://wkhtmltopdf.org/usage/wkhtmltopdf.txt)
 

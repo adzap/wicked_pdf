@@ -1,13 +1,5 @@
 module WickedPdf
   class OptionParser
-    BINARY_VERSION_WITHOUT_DASHES = Gem::Version.new('0.12.0')
-
-    attr_reader :binary_version
-
-    def initialize(binary_version = WickedPdf::Binary::DEFAULT_BINARY_VERSION)
-      @binary_version = binary_version
-    end
-
     def parse(options)
       [
         parse_extra(options),
@@ -21,14 +13,6 @@ module WickedPdf
         parse_toc(options.delete(:toc)),
         parse_basic_auth(options)
       ].flatten
-    end
-
-    def format_option(name)
-      if binary_version < BINARY_VERSION_WITHOUT_DASHES
-        "--#{name}"
-      else
-        name
-      end
     end
 
     private
@@ -78,19 +62,19 @@ module WickedPdf
       return [] if arg.blank?
       # Filesystem path or URL - hand off to wkhtmltopdf
       if argument.is_a?(Pathname) || (arg[0, 4] == 'http')
-        [format_option('cover'), arg]
+        ['cover', arg]
       else # HTML content
         @hf_tempfiles ||= []
         @hf_tempfiles << tf = WickedPdf::Tempfile.new('wicked_cover_pdf.html')
         tf.write arg
         tf.flush
-        [format_option('cover'), tf.path]
+        ['cover', tf.path]
       end
     end
 
     def parse_toc(options)
       return [] if options.nil?
-      r = [format_option('toc')]
+      r = ['toc']
       unless options.blank?
         r += make_options(options, [:font_name, :header_text], 'toc')
         r += make_options(options, [:xsl_style_sheet])

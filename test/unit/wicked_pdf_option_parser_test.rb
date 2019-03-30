@@ -21,7 +21,7 @@ class WickedPdfOptionParserTest < ActiveSupport::TestCase
   end
 
   test 'should parse toc options' do
-    toc_option = option_parser.format_option('toc')
+    toc_option = 'toc'
 
     [:font_name, :header_text].each do |o|
       assert_equal "#{toc_option} --toc-#{o.to_s.tr('_', '-')} toc",
@@ -60,7 +60,7 @@ class WickedPdfOptionParserTest < ActiveSupport::TestCase
   end
 
   test 'should parse cover' do
-    cover_option = option_parser.format_option('cover')
+    cover_option = 'cover'
 
     pathname = Rails.root.join('app', 'views', 'pdf', 'file.html')
     assert_equal "#{cover_option} http://example.org", parse_options(:cover => 'http://example.org').strip, 'URL'
@@ -96,33 +96,13 @@ class WickedPdfOptionParserTest < ActiveSupport::TestCase
     end
   end
 
-  test 'should not use double dash options for version without dashes' do
-    op = option_parser(WickedPdf::OptionParser::BINARY_VERSION_WITHOUT_DASHES)
-
-    %w[toc cover].each do |name|
-      assert_equal op.format_option(name), name
-    end
-  end
-
-  test 'should use double dash options for version with dashes' do
-    op = option_parser(Gem::Version.new('0.11.0'))
-
-    %w[toc cover].each do |name|
-      assert_equal op.format_option(name), "--#{name}"
-    end
-  end
-
   test '-- options should not be given after object' do
     options = { :header => { :center => 3 }, :cover => 'http://example.org', :disable_javascript => true }
-    cover_option = option_parser.format_option('cover')
+    cover_option = 'cover'
     assert_equal parse_options(options), "--disable-javascript --header-center 3 #{cover_option} http://example.org"
   end
 
-  def parse_options(options, version = WickedPdf::Binary::DEFAULT_BINARY_VERSION)
-    option_parser(version).parse(options).join(' ')
-  end
-
-  def option_parser(version = WickedPdf::Binary::DEFAULT_BINARY_VERSION)
-    WickedPdf::OptionParser.new(version)
+  def parse_options(options)
+    WickedPdf::OptionParser.new.parse(options).join(' ')
   end
 end

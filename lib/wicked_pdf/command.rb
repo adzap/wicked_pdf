@@ -2,9 +2,9 @@ module WickedPdf
   class Command
     attr_reader :binary, :option_parser
 
-    def initialize(binary: Binary.new, option_parser: nil)
+    def initialize(binary: Binary.new, option_parser: OptionParser.new)
       @binary = binary
-      @option_parser = option_parser || OptionParser.new(@binary.version)
+      @option_parser = option_parser
     end
 
     def execute(options, *args)
