@@ -4,6 +4,7 @@ module WickedPdf
       @app = app
       @options = (WickedPdf.config || {}).merge(options)
       @conditions = conditions
+      @command = command(options[:wkhtmltopdf])
     end
 
     def call(env)
@@ -17,7 +18,7 @@ module WickedPdf
         body = response.respond_to?(:body) ? response.body : response.join
         body = body.join if body.is_a?(Array)
 
-        body = WickedPdf.new(@options[:wkhtmltopdf]).pdf_from_string(translate_paths(body, env), @options)
+        body = WickedPdf::Document.new(@command).pdf_from_string(translate_paths(body, env), @options)
 
         response = [body]
 
@@ -87,6 +88,14 @@ module WickedPdf
 
     def concat(accepts, type)
       (accepts || '').split(',').unshift(type).compact.join(',')
+    end
+
+    def command(binary_path)
+      if binary_path
+        WickedPdf::Command.new
+      else
+        WickedPdf::Command.new(binary: WickedPdf::Binary.new(binary_path))
+      end
     end
   end
 end
