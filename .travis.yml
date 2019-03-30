@@ -1,4 +1,5 @@
 language: ruby
+dist: xenial
 git:
   depth: 1
   quiet: true
