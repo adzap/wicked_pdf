@@ -43,8 +43,9 @@ module WickedPdf
 
       html_string = controller.render_to_string(render_opts)
       options = prerender_header_and_footer(options)
-      w = WickedPdf.new(options[:wkhtmltopdf])
-      w.pdf_from_string(html_string, options)
+
+      document = WickedPdf::Document.new(command(options[:wkhtmltopdf]))
+      document.pdf_from_string(html_string, options)
     ensure
       clean_temp_files
     end
@@ -104,6 +105,14 @@ module WickedPdf
       tf.write controller.render_to_string(options)
       tf.flush
       tf.path
+    end
+
+    def command(binary_path)
+      if binary_path
+        WickedPdf::Command.new binary: WickedPdf::Binary.new(binary_path) 
+      else
+        WickedPdf::Command.new
+      end
     end
 
     def clean_temp_files
