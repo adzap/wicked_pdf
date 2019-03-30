@@ -46,7 +46,7 @@ module WickedPdf
       possible_locations = (ENV['PATH'].split(':') + %w[/usr/bin /usr/local/bin]).uniq
       possible_locations += %w[~/bin] if ENV.key?('HOME')
 
-      exe_path ||= possible_locations.map { |l| File.expand_path("#{l}/#{EXE_NAME}") }.find { |location| File.exist?(location) }
+      exe_path = possible_locations.map { |l| File.expand_path("#{l}/#{EXE_NAME}") }.find { |location| File.exist?(location) }
       exe_path || ''
     end
   end
