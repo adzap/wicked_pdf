@@ -1,3 +1,3 @@
 module WickedPdf
-  VERSION = '1.2.1'.freeze
+  VERSION = '2.0.0.beta1'.freeze
 end
