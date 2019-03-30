@@ -31,6 +31,7 @@ module WickedPdf
     def make_pdf(options = {})
       render_opts = {
         :template => options[:template],
+        :prefixes => options[:prefixes],
         :layout => options[:layout],
         :formats => options[:formats],
         :handlers => options[:handlers],
@@ -38,7 +39,8 @@ module WickedPdf
       }
       render_opts[:inline] = options[:inline] if options[:inline]
       render_opts[:locals] = options[:locals] if options[:locals]
-      render_opts[:file] = options[:file] if options[:file]
+      render_opts[:file]   = options[:file] if options[:file]
+
       html_string = controller.render_to_string(render_opts)
       options = prerender_header_and_footer(options)
       w = WickedPdf.new(options[:wkhtmltopdf])
@@ -55,6 +57,7 @@ module WickedPdf
       if options[:show_as_html]
         render_opts = {
           :template => options[:template],
+          :prefixes => options[:prefixes],
           :layout => options[:layout],
           :formats => options[:formats],
           :handlers => options[:handlers],
