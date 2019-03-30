@@ -1,6 +1,15 @@
 require 'test_helper'
 
 class WickedPdfBinaryTest < ActiveSupport::TestCase
+  setup do
+    @saved_config = WickedPdf.config
+    WickedPdf.config = {}
+  end
+
+  teardown do
+    WickedPdf.config = @saved_config
+  end
+
   test 'should extract old wkhtmltopdf version' do
     version_info_sample = "Name:V\n  wkhtmltopdf 0.9.9\n\nLicense:\n  Copyright (C) 2008,2009 Wkhtmltopdf Authors.\n\n\n\n  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.\n  This is free software: you are free to change and redistribute it. There is NO\n  WARRANTY, to the extent permitted by law.\n\nAuthors:\n  Written by Jakob Truelsen. Patches by Mrio Silva, Benoit Garret and Emmanuel\n  Bouthenot.\n"
     assert_equal Gem::Version.new('0.9.9'), binary.parse_version_string(version_info_sample)
@@ -47,18 +56,49 @@ class WickedPdfBinaryTest < ActiveSupport::TestCase
   end
 
   test 'should raise exception if binary version is less than minimum' do
-    begin
-      path = WickedPdf.config[:exe_path]
-      WickedPdf.config[:exe_path] = nil
+    version_info_sample = "Name:V\n  wkhtmltopdf 0.9.9\n\nLicense:\n  Copyright (C) 2008,2009 Wkhtmltopdf Authors.\n\n\n\n  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.\n  This is free software: you are free to change and redistribute it. There is NO\n  WARRANTY, to the extent permitted by law.\n\nAuthors:\n  Written by Jakob Truelsen. Patches by Mrio Silva, Benoit Garret and Emmanuel\n  Bouthenot.\n"
+    Open3.expects(:popen3).returns([nil, mock('stdout', :gets => version_info_sample), nil])
 
-      version_info_sample = "Name:V\n  wkhtmltopdf 0.9.9\n\nLicense:\n  Copyright (C) 2008,2009 Wkhtmltopdf Authors.\n\n\n\n  License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>.\n  This is free software: you are free to change and redistribute it. There is NO\n  WARRANTY, to the extent permitted by law.\n\nAuthors:\n  Written by Jakob Truelsen. Patches by Mrio Silva, Benoit Garret and Emmanuel\n  Bouthenot.\n"
-      Open3.expects(:popen3).returns([nil, mock('stdout', :gets => version_info_sample), nil])
+    assert_raise RuntimeError do
+      WickedPdf::Binary.new
+    end
+  end
 
-      assert_raise RuntimeError do
+  test 'should correctly locate wkhtmltopdf without bundler' do
+    bundler_module = Bundler
+    Object.send(:remove_const, :Bundler)
+
+    assert_nothing_raised do
+      WickedPdf::Binary.new
+    end
+
+    Object.const_set(:Bundler, bundler_module)
+  end
+
+  test 'should correctly locate wkhtmltopdf with bundler' do
+    assert_nothing_raised do
+      WickedPdf::Binary.new
+    end
+  end
+
+  class LocationNonWritableTest < ActiveSupport::TestCase
+    setup do
+      @saved_config = WickedPdf.config
+      WickedPdf.config = {}
+
+      @old_home = ENV['HOME']
+      ENV['HOME'] = '/not/a/writable/directory'
+    end
+
+    teardown do
+      WickedPdf.config = @saved_config
+      ENV['HOME'] = @old_home
+    end
+
+    test 'should correctly locate wkhtmltopdf with bundler while HOME is set to a non-writable directory' do
+      assert_nothing_raised do
         WickedPdf::Binary.new
       end
-    ensure
-      WickedPdf.config[:exe_path] = path
     end
   end
 
