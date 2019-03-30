@@ -11,7 +11,7 @@ before_install:
 bundler_args: --verbose
 before_script:
   - bundle list
-  - sudo apt-get install -y wkhtmltopdf
+  - sudo apt-get install -y xvfp wkhtmltopdf
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
 env: WKHTMLTOPDF_BIN=/usr/bin/wkhtmltopdf
