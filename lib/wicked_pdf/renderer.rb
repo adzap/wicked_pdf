@@ -27,19 +27,7 @@ module WickedPdf
     end
 
     def make_pdf(options = {})
-      render_opts = {
-        :template => options[:template],
-        :prefixes => options[:prefixes],
-        :layout => options[:layout],
-        :formats => options[:formats],
-        :handlers => options[:handlers],
-        :assigns => options[:assigns]
-      }
-      render_opts[:inline] = options[:inline] if options[:inline]
-      render_opts[:locals] = options[:locals] if options[:locals]
-      render_opts[:file]   = options[:file] if options[:file]
-
-      html_string = controller.render_to_string(render_opts)
+      html_string = controller.render_to_string(render_options(options))
       options = prerender_header_and_footer(options)
 
       document = WickedPdf::Document.new(command(options[:wkhtmltopdf]))
@@ -53,19 +41,7 @@ module WickedPdf
       options[:template] ||= File.join(controller.controller_path, controller.action_name)
       options[:disposition] ||= 'inline'
       if options[:show_as_html]
-        render_opts = {
-          :template => options[:template],
-          :prefixes => options[:prefixes],
-          :layout => options[:layout],
-          :formats => options[:formats],
-          :handlers => options[:handlers],
-          :assigns => options[:assigns],
-          :content_type => 'text/html'
-        }
-        render_opts[:inline] = options[:inline] if options[:inline]
-        render_opts[:locals] = options[:locals] if options[:locals]
-        render_opts[:file] = options[:file] if options[:file]
-        controller.render(render_opts)
+        controller.render(render_options(options).merge(:content_type => 'text/html'))
       else
         pdf_content = make_pdf(options)
         File.open(options[:save_to_file], 'wb') { |file| file << pdf_content } if options[:save_to_file]
@@ -80,20 +56,15 @@ module WickedPdf
         next unless options[hf] && options[hf][:html] && options[hf][:html][:template]
 
         options[hf][:html][:layout] ||= options[:layout]
-        render_opts = {
-          :template => options[hf][:html][:template],
-          :layout => options[hf][:html][:layout],
-          :formats => options[hf][:html][:formats],
-          :handlers => options[hf][:html][:handlers],
-          :assigns => options[hf][:html][:assigns]
-        }
-        render_opts[:locals] = options[hf][:html][:locals] if options[hf][:html][:locals]
-        render_opts[:file] = options[hf][:html][:file] if options[:file]
-
+        render_opts = render_options(options[hf][:html])
         path = render_to_tempfile("wicked_#{hf}_pdf.html", render_opts)
         options[hf][:html][:url] = "file:///#{path}"
       end
       options
+    end
+
+    def render_options(options)
+      options.slice(:template, :prefixes, :layout, :formats, :handlers, :assigns, :inline, :locals, :file)
     end
 
     def render_to_tempfile(filename, options)
