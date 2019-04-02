@@ -21,7 +21,7 @@ module WickedPdf
     private
 
     def set_basic_auth(options = {})
-      options[:basic_auth] ||= WickedPdf.config.fetch(:basic_auth) { false }
+      options[:basic_auth] ||= WickedPdf.config.fetch(:basic_auth, false)
       return unless options[:basic_auth] && controller.request.env['HTTP_AUTHORIZATION']
       controller.request.env['HTTP_AUTHORIZATION'].split(' ').last
     end
