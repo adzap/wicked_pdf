@@ -35,4 +35,5 @@ DESC
   spec.add_development_dependency 'rubocop', '~> 0.50.0'
   spec.add_development_dependency 'sqlite3', '~> 1.3.6'
   spec.add_development_dependency 'mocha', '= 1.3'
+  spec.add_development_dependency 'sprockets', '~> 3.0'
 end
