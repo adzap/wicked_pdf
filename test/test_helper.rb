@@ -5,7 +5,7 @@ require 'combustion'
 
 Combustion.path = 'test/dummy'
 Combustion.initialize!(:all) do
-  if config.active_record.sqlite3.respond_to?(:represent_boolean_as_integer) # Rails 5.2
+  if Rails::VERSION::MAJOR < 6.0 && config.active_record.sqlite3.respond_to?(:represent_boolean_as_integer) # Rails 5.2
     config.active_record.sqlite3.represent_boolean_as_integer = true
   end
 end
